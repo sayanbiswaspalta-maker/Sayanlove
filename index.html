@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Valentine</title>
+    <style>
+        /* --- MAIN CSS STYLES --- */
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffe6e6; /* Cute pink background */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 20px; /* Added more padding since image is gone */
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 90%;
+            width: 350px;
+            margin: 20px 0;
+        }
+
+        /* Photo Style for Success Page */
+        .gf-photo {
+            width: 180px; height: 180px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #ff4d6d;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-bottom: 15px;
+        }
+
+        h1 { color: #ff4d6d; font-size: 28px; margin: 10px 0; }
+        h2 { color: #ff4d6d; font-size: 22px; margin-top: 30px; margin-bottom: 15px; }
+        p { color: #555; font-size: 16px; margin: 5px 0; }
+
+        /* YES/NO Buttons */
+        .btn-group { margin-top: 30px; position: relative; height: 60px; }
+        
+        button.action-btn {
+            padding: 12px 25px; font-size: 18px; border: none;
+            border-radius: 50px; cursor: pointer; outline: none; font-weight: bold;
+        }
+        
+        #yesBtn { background-color: #ff4d6d; color: white; box-shadow: 0 4px 10px rgba(255, 77, 109, 0.4); }
+        
+        #noBtn { 
+            background-color: #e0e0e0; color: #333; 
+            position: absolute; left: 50%; margin-left: 10px; 
+            transition: all 0.3s ease;
+        }
+
+        /* --- DATE IDEAS BUTTONS --- */
+        .date-btn {
+            background-color: #fff0f3;
+            color: #333;
+            width: 100%;
+            margin: 8px 0;
+            padding: 15px;
+            border-radius: 15px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.1s;
+        }
+        .date-btn:active { transform: scale(0.98); background-color: #ffccd5; }
+
+        /* Hidden Elements */
+        #success-page, #messagePopup { display: none; }
+
+        /* Envelope Styles */
+        .envelope-container { margin-top: 20px; }
+        .envelope-icon { font-size: 50px; cursor: pointer; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* Popup Styles */
+        .popup-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 1000;
+            justify-content: center; align-items: center;
+        }
+        .popup-content {
+            background: white; padding: 30px; border-radius: 20px;
+            width: 80%; max-width: 400px; position: relative;
+            text-align: center;
+            border-top: 5px solid #ff4d6d;
+            animation: popIn 0.3s ease;
+        }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .close-btn {
+            position: absolute; top: 10px; right: 15px;
+            font-size: 28px; color: #aaa; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="proposal-page">
+        <br>
+        <h1>Will you be my Valentine? 💖</h1>
+        <p>Please say yes! 🥺</p>
+
+        <div class="btn-group">
+            <button id="yesBtn" class="action-btn" onclick="sheSaidYes()">YES!</button>
+            <button id="noBtn" class="action-btn" onmouseover="moveButton()" ontouchstart="moveButton()">No</button>
+        </div>
+    </div>
+
+
+    <div class="container" id="success-page">
+        <img src="1000128914.jpg" alt="My Love" class="gf-photo">
+        
+        <h1 style="font-size: 24px;">Good choice baby 🥰</h1>
+        <p>You just made me the happiest ❤️</p>
+        
+        <div class="envelope-container">
+            <h2 style="font-size: 20px; margin-bottom: 5px;">Secret Message 💌</h2>
+            <div class="envelope-icon" onclick="openLongLetter()">✉️</div>
+            <p style="font-size: 12px; color: #888;">(Tap the letter)</p>
+        </div>
+
+        <h2 style="margin-top: 40px;">Our Virtual Date Ideas 👩‍❤️‍👨</h2>
+        
+        <button class="date-btn" onclick="showHoneyBeeMessage()">
+            🎬 Watch movie together
+        </button>
+        
+        <button class="date-btn" onclick="showHoneyBeeMessage()">
+            🎧 Share songs
+        </button>
+        
+        <button class="date-btn" onclick="showHoneyBeeMessage()">
+            📞 Late night calls
+        </button>
+        
+        <button class="date-btn" onclick="showHoneyBeeMessage()">
+            📸 Random photos
+        </button>
+    </div>
+
+
+    <div id="messagePopup" class="popup-overlay">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <div id="popup-text-area">
+                </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- YOUR MESSAGES ---
+        
+        // 1. Message for Date Ideas
+        const honeyBeeMessage = `
+            <h2 style="color: #ff4d6d;">Love You!</h2>
+            <p style="font-size: 18px; font-weight: bold;">i love you my honey bee❤️</p>
+        `;
+
+        // 2. The Long Secret Letter
+        const longLetterMessage = `
+            <h3>My Secret Note For You 🤫</h3>
+            <p style="text-align: left; margin-top: 15px; line-height: 1.6;">
+                Knowing you is the best thing that ever happened to me. I can't wait to spend Valentine's Day (and every other day) making you smile. 
+                <br><br>
+                You are my favorite person in the whole world! 🌎❤️
+            </p>
+        `;
+
+
+        // --- LOGIC ---
+
+        function moveButton() {
+            var noBtn = document.getElementById('noBtn');
+            var x = Math.random() * (window.innerWidth - 120);
+            var y = Math.random() * (window.innerHeight - 200);
+            noBtn.style.position = "fixed";
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+        }
+
+        function sheSaidYes() {
+            document.getElementById('proposal-page').style.display = 'none';
+            document.getElementById('success-page').style.display = 'block';
+            createConfetti();
+        }
+
+        function openLongLetter() {
+            document.getElementById('popup-text-area').innerHTML = longLetterMessage;
+            document.getElementById('messagePopup').style.display = 'flex';
+        }
+
+        function showHoneyBeeMessage() {
+            document.getElementById('popup-text-area').innerHTML = honeyBeeMessage;
+            document.getElementById('messagePopup').style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.getElementById('messagePopup').style.display = 'none';
+        }
+
+        // Confetti Effect
+        function createConfetti() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.style.position = 'fixed';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '-10px';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                heart.style.zIndex = '999';
+                heart.style.animation = 'fall 3s linear';
+                document.body.appendChild(heart);
+                setTimeout(() => { heart.remove() }, 3000);
+            }, 200);
+        }
+
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }`;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
